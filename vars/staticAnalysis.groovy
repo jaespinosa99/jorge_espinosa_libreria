@@ -1,8 +1,8 @@
 def call(Map config = [:]) {
-    
+
     def manualAbort = config.get('abortPipeline', false)
     
-    def branchName = env.BRANCH_NAME ?: env.GIT_BRANCH ?: ""
+    def branchName = env.BRANCH_NAME ?: ""
 
     echo "Analizando rama: ${branchName}"
 
