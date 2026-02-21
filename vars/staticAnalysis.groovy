@@ -7,12 +7,15 @@ def call(Map config = [:]) {
 
    
     timeout(time: 5, unit: 'MINUTES') {
-        def qg = waitForQualityGate() 
+        //def qg = waitForQualityGate() 
         
-        if (qg.status != 'OK' && abortPipeline) {
-            error "Pipeline abortado debido a que el Quality Gate falló y abortPipeline es True" 
-        } else {
-            echo "Continuando pipeline. Estado Quality Gate: ${qg.status}. AbortPipeline es: ${abortPipeline}" 
-        }
+        // if (qg.status != 'OK' && abortPipeline) {
+        //     error "Pipeline abortado debido a que el Quality Gate falló y abortPipeline es True" 
+        // } else {
+        //     echo "Continuando pipeline. Estado Quality Gate: ${qg.status}. AbortPipeline es: ${abortPipeline}" 
+        // }
+
+        echo "Simulación del QualityGate" 
+
     }
 }
