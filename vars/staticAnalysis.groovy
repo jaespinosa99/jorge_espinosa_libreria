@@ -6,19 +6,15 @@ def call(Map config = [:]) {
 
     echo "Analizando rama: ${branchName}"
 
-    withSonarQubeEnv('Sonar Local') {
-        sh 'echo "Ejecución de las pruebas de calidad de código"'
+    def scannerHome = tool 'SonarScanner'
+    
+    withSonarQubeEnv('Sonar Local') { 
+        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=devops_ws -Dsonar.sources=."
     }
 
     timeout(time: 5, unit: 'MINUTES') {
 
-        def qgStatus = "OK" 
-        try {
-            def qg = waitForQualityGate()
-            qgStatus = qg.status
-        } catch (Exception e) {
-            echo "Simulación de Quality Gate para ejercicio 4: OK"
-        }
+        def qg = waitForQualityGate()
 
         
         def debeAbortar = false
@@ -31,7 +27,9 @@ def call(Map config = [:]) {
             debeAbortar = true 
         }
 
-        if (qgStatus != 'OK' || debeAbortar) {
+        echo "Estado SonarQube: ${qg.status} | Política: Rama=${rama}, Abortar=${debeAbortar}"
+
+        if (qg.status != 'OK' || debeAbortar) {
             error "Pipeline abortado por política de rama (${branchName}) o parámetro manual."
         } else {
             echo "Análisis superado o permitido en rama: ${branchName}. Abortar: ${debeAbortar}"
