@@ -31,7 +31,7 @@ def call(Map config = [:]) {
             debeAbortar = true 
         }
 
-        if (qgStatus != 'OK' && debeAbortar) {
+        if (qgStatus != 'OK' || debeAbortar) {
             error "Pipeline abortado por política de rama (${branchName}) o parámetro manual."
         } else {
             echo "Análisis superado o permitido en rama: ${branchName}. Abortar: ${debeAbortar}"
