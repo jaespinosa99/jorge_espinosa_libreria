@@ -27,7 +27,7 @@ def call(Map config = [:]) {
             debeAbortar = true 
         }
 
-        echo "Estado SonarQube: ${qg.status} | Política: Rama=${rama}, Abortar=${debeAbortar}"
+        echo "Estado SonarQube: ${qg.status} | Política: Rama=${branchName}, Abortar=${debeAbortar}"
 
         if (qg.status != 'OK' || debeAbortar) {
             error "Pipeline abortado por política de rama (${branchName}) o parámetro manual."
